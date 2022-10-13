@@ -6,7 +6,6 @@ package cmd
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -38,6 +37,8 @@ to quickly create a Cobra application.`,
 
 		flags := cmd.Flags()
 
+		log.Printf("Creating repo %s...\n", mustString(flags, "name"))
+
 		repoData := Repository{
 			Name:        mustString(flags, "name"),
 			Description: mustString(flags, "description"),
@@ -65,11 +66,14 @@ to quickly create a Cobra application.`,
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusCreated {
-			fmt.Printf("Response code is %d\n", resp.StatusCode)
+			log.Printf("Unable to create repo %s\n", mustString(flags, "name"))
+			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
-			fmt.Println(string(body))
+			log.Println(jsonPrettyPrint(string(body)))
 			log.Fatal(err)
 		}
+
+		log.Printf("%s created successfully", mustString(flags, "name"))
 	},
 }
 
@@ -87,6 +91,21 @@ func mustBool(fs *pflag.FlagSet, name string) bool {
 		panic(err)
 	}
 	return v
+}
+
+func jsonPrettyPrint(in string) string {
+	var out bytes.Buffer
+	err := json.Indent(&out, []byte(in), "", "\t")
+	if err != nil {
+		return in
+	}
+	return out.String()
+}
+
+// structPrettyPrint to print struct in a readable way
+func structPrettyPrint(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "\t")
+	return string(s)
 }
 
 func init() {
