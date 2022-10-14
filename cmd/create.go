@@ -17,6 +17,7 @@ import (
 // Repository defines a github repo
 type Repository struct {
 	Name        string `json:"name"`
+	Owner       string `json:"owner"`
 	Description string `json:"description"`
 	Private     bool   `json:"private"`
 }
@@ -24,13 +25,8 @@ type Repository struct {
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Create a new repo",
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		const url = "https://api.github.com/user/repos"
@@ -102,8 +98,8 @@ func jsonPrettyPrint(in string) string {
 	return out.String()
 }
 
-// structPrettyPrint to print struct in a readable way
-func structPrettyPrint(i interface{}) string {
+// structPrettyPrintToJson to print struct in a readable way
+func structPrettyPrintToJSON(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "\t")
 	return string(s)
 }
