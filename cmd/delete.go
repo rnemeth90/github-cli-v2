@@ -37,7 +37,7 @@ var deleteCmd = &cobra.Command{
 		}
 		defer resp.Body.Close()
 
-		if resp.StatusCode != http.StatusCreated {
+		if resp.StatusCode != http.StatusNoContent {
 			log.Printf("Unable to delete repo %s\n", mustString(flags, "name"))
 			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
@@ -52,5 +52,10 @@ var deleteCmd = &cobra.Command{
 
 func init() {
 	repoCmd.AddCommand(deleteCmd)
-
+	deleteCmd.Flags().StringP("owner", "o", "", "The owner")
+	deleteCmd.MarkFlagRequired("owner")
+	deleteCmd.Flags().StringP("token", "t", "", "The token")
+	deleteCmd.MarkFlagRequired("token")
+	deleteCmd.Flags().StringP("name", "n", "", "The name")
+	deleteCmd.MarkFlagRequired("name")
 }
