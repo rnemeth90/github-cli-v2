@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2022 Ryan Nemeth ryannemeth<at>live<dot>com
 */
 package cmd
 
