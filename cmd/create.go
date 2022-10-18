@@ -65,8 +65,8 @@ var createCmd = &cobra.Command{
 }
 
 func init() {
+	createCmd.Flags().SortFlags = true
 	repoCmd.AddCommand(createCmd)
-
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

@@ -24,6 +24,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
+	repoCmd.Flags().SortFlags = true
 	rootCmd.AddCommand(repoCmd)
 
 	// Here you will define your flags and configuration settings.

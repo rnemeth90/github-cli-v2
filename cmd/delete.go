@@ -51,6 +51,7 @@ var deleteCmd = &cobra.Command{
 }
 
 func init() {
+	deleteCmd.Flags().SortFlags = true
 	repoCmd.AddCommand(deleteCmd)
 	deleteCmd.Flags().StringP("owner", "o", "", "The owner")
 	deleteCmd.MarkFlagRequired("owner")

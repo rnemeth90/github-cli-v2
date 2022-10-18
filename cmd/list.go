@@ -58,6 +58,7 @@ var listCmd = &cobra.Command{
 }
 
 func init() {
+	listCmd.Flags().SortFlags = true
 	repoCmd.AddCommand(listCmd)
 	listCmd.Flags().StringP("token", "t", "", "Authentication token")
 	listCmd.MarkFlagRequired("token")
