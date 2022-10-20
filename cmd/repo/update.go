@@ -1,8 +1,7 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
-package cmd
+package repo
 
 import (
 	"github.com/spf13/cobra"

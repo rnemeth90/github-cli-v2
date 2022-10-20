@@ -1,7 +1,7 @@
 /*
 Copyright © 2022 Ryan Nemeth ryannemeth<at>live<dot>com
 */
-package cmd
+package repo
 
 import (
 	"io/ioutil"

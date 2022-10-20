@@ -2,7 +2,7 @@
 Copyright © 2022 Ryan Nemeth ryannemeth<at>live<dot>com
 */
 
-package cmd
+package utils
 
 import (
 	"bytes"
@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func mustString(fs *pflag.FlagSet, name string) string {
+func ParseString(fs *pflag.FlagSet, name string) string {
 	v, err := fs.GetString(name)
 	if err != nil {
 		panic(err)
@@ -19,7 +19,7 @@ func mustString(fs *pflag.FlagSet, name string) string {
 	return v
 }
 
-func mustBool(fs *pflag.FlagSet, name string) bool {
+func ParseBool(fs *pflag.FlagSet, name string) bool {
 	v, err := fs.GetBool(name)
 	if err != nil {
 		panic(err)
@@ -27,7 +27,7 @@ func mustBool(fs *pflag.FlagSet, name string) bool {
 	return v
 }
 
-func jsonPrettyPrint(in string) string {
+func JsonPrettyPrint(in string) string {
 	var out bytes.Buffer
 	err := json.Indent(&out, []byte(in), "", "\t")
 	if err != nil {
@@ -37,7 +37,7 @@ func jsonPrettyPrint(in string) string {
 }
 
 // structPrettyPrintToJson to print struct in a readable way
-func structPrettyPrintToJSON(i interface{}) string {
+func StructPrettyPrintToJSON(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "\t")
 	return string(s)
 }

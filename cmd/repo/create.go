@@ -1,7 +1,7 @@
 /*
 Copyright © 2022 Ryan Nemeth ryannemeth<at>live<dot>com
 */
-package cmd
+package repo
 
 import (
 	"bytes"
@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rnemeth90/github-cli-v2/cmd/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -24,12 +25,12 @@ var createCmd = &cobra.Command{
 
 		flags := cmd.Flags()
 
-		log.Printf("Creating repo %s...\n", mustString(flags, "name"))
+		log.Printf("Creating repo %s...\n", ParseString(flags, "name"))
 
 		repoData := Repository{
-			Name:        mustString(flags, "name"),
-			Description: mustString(flags, "description"),
-			Private:     mustBool(flags, "private"),
+			Name:        ParseString(flags, "name"),
+			Description: ParseString(flags, "description"),
+			Private:     ParseBool(flags, "private"),
 		}
 
 		jsonData, err := json.Marshal(repoData)
@@ -37,7 +38,7 @@ var createCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		t := mustString(flags, "token")
+		t := ParseString(flags, "token")
 
 		client := &http.Client{}
 		req, err := http.NewRequest("POST", url, bytes.NewReader(jsonData))
@@ -53,14 +54,14 @@ var createCmd = &cobra.Command{
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusCreated {
-			log.Printf("Unable to create repo %s\n", mustString(flags, "name"))
+			log.Printf("Unable to create repo %s\n", ParseString(flags, "name"))
 			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
-			log.Println(jsonPrettyPrint(string(body)))
+			log.Println(JsonPrettyPrint(string(body)))
 			log.Fatal(err)
 		}
 
-		log.Printf("%s created successfully", mustString(flags, "name"))
+		log.Printf("%s created successfully", ParseString(flags, "name"))
 	},
 }
 

@@ -2,9 +2,10 @@
 Copyright © 2022 Ryan Nemeth ryannemeth<at>live<dot>com
 */
 
-package cmd
+package repo
 
 import (
+	"github.com/rnemeth90/github-cli-v2/cmd"
 	"github.com/spf13/cobra"
 )
 
@@ -25,7 +26,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	repoCmd.Flags().SortFlags = true
-	rootCmd.AddCommand(repoCmd)
+	cmd.RootCmd.AddCommand(repoCmd)
 
 	// Here you will define your flags and configuration settings.
 
