@@ -25,12 +25,12 @@ var createCmd = &cobra.Command{
 
 		flags := cmd.Flags()
 
-		log.Printf("Creating repo %s...\n", ParseString(flags, "name"))
+		log.Printf("Creating repo %s...\n", utils.ParseString(flags, "name"))
 
 		repoData := Repository{
-			Name:        ParseString(flags, "name"),
-			Description: ParseString(flags, "description"),
-			Private:     ParseBool(flags, "private"),
+			Name:        utils.ParseString(flags, "name"),
+			Description: utils.ParseString(flags, "description"),
+			Private:     utils.ParseBool(flags, "private"),
 		}
 
 		jsonData, err := json.Marshal(repoData)
@@ -38,7 +38,7 @@ var createCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		t := ParseString(flags, "token")
+		t := utils.ParseString(flags, "token")
 
 		client := &http.Client{}
 		req, err := http.NewRequest("POST", url, bytes.NewReader(jsonData))
@@ -54,14 +54,14 @@ var createCmd = &cobra.Command{
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusCreated {
-			log.Printf("Unable to create repo %s\n", ParseString(flags, "name"))
+			log.Printf("Unable to create repo %s\n", utils.ParseString(flags, "name"))
 			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
-			log.Println(JsonPrettyPrint(string(body)))
+			log.Println(utils.JsonPrettyPrint(string(body)))
 			log.Fatal(err)
 		}
 
-		log.Printf("%s created successfully", ParseString(flags, "name"))
+		log.Printf("%s created successfully", utils.ParseString(flags, "name"))
 	},
 }
 
@@ -78,7 +78,9 @@ func init() {
 	// is called directly, e.g.:
 	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	createCmd.Flags().StringP("name", "n", "", "Name of the repo")
+	createCmd.MarkFlagRequired("name")
 	createCmd.Flags().StringP("description", "d", "", "Description of the repo")
 	createCmd.Flags().StringP("token", "t", "", "A token")
+	createCmd.MarkFlagRequired("token")
 	createCmd.Flags().BoolP("private", "p", false, "Create a private repo")
 }

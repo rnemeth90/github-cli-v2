@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rnemeth90/github-cli-v2/cmd/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +19,9 @@ var deleteCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		flags := cmd.Flags()
-		owner := mustString(flags, "owner")
-		repo := mustString(flags, "name")
-		token := mustString(flags, "token")
+		owner := utils.ParseString(flags, "owner")
+		repo := utils.ParseString(flags, "name")
+		token := utils.ParseString(flags, "token")
 
 		url := "https://api.github.com/repos/" + owner + "/" + repo
 
@@ -38,14 +39,14 @@ var deleteCmd = &cobra.Command{
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusNoContent {
-			log.Printf("Unable to delete repo %s\n", mustString(flags, "name"))
+			log.Printf("Unable to delete repo %s\n", utils.ParseString(flags, "name"))
 			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
-			log.Println(jsonPrettyPrint(string(body)))
+			log.Println(utils.JsonPrettyPrint(string(body)))
 			log.Fatal(err)
 		}
 
-		log.Printf("%s deleted successfully", mustString(flags, "name"))
+		log.Printf("%s deleted successfully", utils.ParseString(flags, "name"))
 
 	},
 }

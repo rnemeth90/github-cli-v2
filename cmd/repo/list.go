@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rnemeth90/github-cli-v2/cmd/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +24,7 @@ var listCmd = &cobra.Command{
 		const url = "https://api.github.com/user/repos"
 
 		flags := cmd.Flags()
-		t := mustString(flags, "token")
+		t := utils.ParseString(flags, "token")
 
 		client := &http.Client{}
 		req, err := http.NewRequest("GET", url, nil)
@@ -47,13 +48,13 @@ var listCmd = &cobra.Command{
 		}
 
 		if resp.StatusCode != http.StatusOK {
-			log.Printf("Unable to create repo %s\n", mustString(flags, "name"))
+			log.Printf("Unable to create repo %s\n", utils.ParseString(flags, "name"))
 			log.Printf("Response code is %d\n", resp.StatusCode)
 			body, _ := ioutil.ReadAll(resp.Body)
-			log.Println(jsonPrettyPrint(string(body)))
+			log.Println(utils.JsonPrettyPrint(string(body)))
 			log.Fatal(err)
 		}
-		fmt.Println(structPrettyPrintToJSON(jsonData))
+		fmt.Println(utils.StructPrettyPrintToJSON(jsonData))
 	},
 }
 

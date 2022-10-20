@@ -27,6 +27,7 @@ func ParseBool(fs *pflag.FlagSet, name string) bool {
 	return v
 }
 
+// JsonPrettyPrint will return JSON parsed in a readable format
 func JsonPrettyPrint(in string) string {
 	var out bytes.Buffer
 	err := json.Indent(&out, []byte(in), "", "\t")
@@ -36,7 +37,7 @@ func JsonPrettyPrint(in string) string {
 	return out.String()
 }
 
-// structPrettyPrintToJson to print struct in a readable way
+// StructPrettyPrintToJSON will return a parsed struct in a readable format
 func StructPrettyPrintToJSON(i interface{}) string {
 	s, _ := json.MarshalIndent(i, "", "\t")
 	return string(s)
